@@ -42,6 +42,17 @@ Total (Do): ~1128 hours across 20 phases.
 |------|--------|------|------|
 | 2026-10-03 | 00-setup-and-tooling/01-dev-environment | 1/3 | Built .venv with uv (Python 3.13), torch 2.14 + MPS works (mps 2x cpu). Mixed up install order; used __version__ as GPU check. |
 | 2026-10-03 | 00-setup-and-tooling/02-git-and-collaboration | 3/3 | Warm-up 2/2 (install order now solid). Sandbox ~/Downloads/git-sandbox: add/commit, branch isolation. Course repo origin = upstream, no fork yet. |
+| 2026-10-03 | 00-setup-and-tooling/03-gpu-setup-and-cloud | 1/3 | Warm-up 2/2. M4 16 GB unified, MPS limit 11.8 GB; 7B fp16=14 GB math right but thought it fits. Got sync right in demo, missed in quiz (confused with .to()). |
+| 2026-10-03 | 00-setup-and-tooling/04-apis-and-keys | 2/3 | Warm-up 2/2. Saw 401 (fake key), 400 workspace-scope, 400 no credits. Pasted a key into chat (told to revoke). .env set, anthropic SDK installed; account has $0 credits. Knew 429 = retry with backoff. |
+| 2026-10-03 | 00-setup-and-tooling/05-jupyter-notebooks | 3/3 | Warm-up 2/2. Predicted out-of-order result (40) right; saw real kernel demo ~/Downloads/nb-demo. jupyterlab installed in .venv. |
+| 2026-10-03 | 00-setup-and-tooling/06-python-environments | 1/3 | Warm-up 2/2. Built ~/Downloads/my-agent with uv init/add (pyproject + uv.lock, 18 pkgs). Thought >=1.26 gives my version. 'don't know' on facts packed right before quiz: teach in smaller steps. |
+| 2026-10-04 | 00-setup-and-tooling/07-docker-for-ai | 1/3 | Warm-up 2/2. Dockerized ~/Downloads/my-agent (13s clean vs 1s cached rebuild), key-in-layer leak, volume demo. Missed only the 'briefly' block facts (compose names, NVIDIA toolkit): every fact needs demo/question. |
+| 2026-10-05 | 00-setup-and-tooling/08-editor-setup | 3/3 | Warm-up 1/2: Compose service-name question missed AGAIN (said shared volume). Uses Antigravity IDE (VS Code 1.107 fork, Open VSX, no Pylance; Pyrefly works, saw Literal['256'] error). Thought Python crashes on wrong types. Switched to Russian. |
+| 2026-10-16 | 00-setup-and-tooling/09-data-management | 3/3 | Warm-up 2/2 (Remote SSH, style). Measured IMDB CSV 33.3 MB vs Parquet 20.5 MB (mispredicted after my misleading hint). Thought no-seed split duplicates; saw 1031/5000 overlap vs 5000/5000 with seed. Got DVC vs .gitignore on own. |
 
 ## Review queue
 - 00-setup-and-tooling/01-dev-environment: bottom-up install order (system first); GPU check = torch.backends.mps.is_available() on Mac, not __version__
+- 00-setup-and-tooling/03-gpu-setup-and-cloud: synchronize() = wait for async GPU (not data transfer); nvidia-smi = NVIDIA status; memory budget = weights + 20-30% + OS
+- 00-setup-and-tooling/04-apis-and-keys: Anthropic auth header is x-api-key (not Authorization: Bearer like OpenAI)
+- 00-setup-and-tooling/06-python-environments: which python = check active venv; never pip inside conda env; >=X gives newest at install time, lockfile pins exact
+- 00-setup-and-tooling/07-docker-for-ai: Compose services reach each other by service name (http://qdrant:6333); NVIDIA Container Toolkit = host GPU into container via --gpus
